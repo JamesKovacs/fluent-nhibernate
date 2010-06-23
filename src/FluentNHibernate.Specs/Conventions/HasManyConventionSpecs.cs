@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using FluentNHibernate.Conventions;
 using FluentNHibernate.Conventions.Instances;
 using FluentNHibernate.MappingModel.ClassBased;
@@ -19,9 +20,14 @@ namespace FluentNHibernate.Specs.Conventions
         protected static ClassMapping mapping;
         protected const int DefaultBatchSize = 100;
 
-        class TestHasManyConvention : IHasManyConvention
+        class TestHasManyConvention : IHasManyConvention, ICollectionConvention
         {
             public void Apply(IOneToManyCollectionInstance instance)
+            {
+                instance.BatchSize(DefaultBatchSize);
+            }
+
+            public void Apply(ICollectionInstance instance)
             {
                 instance.BatchSize(DefaultBatchSize);
             }
